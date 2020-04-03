@@ -106,7 +106,7 @@ export default {
                     body: JSON.stringify(body),
                     headers: {
                         'content-type': 'application/json'
-                    },
+                    }
                 }).then((res) => {
                     if (res.ok) {
                         this.signingUp = false;
@@ -115,19 +115,19 @@ export default {
                     res.json().then((error) => {
                         this.signingUp = false;
                         this.errorMessage = error.message;
-                        throw new Error(error.message);
+                        //throw new Error(error.message);
                     });
-                }).then(() => {
+                }).then((result) => {
+                    localStorage.token = result.token;
                     setTimeout(() => {
                         this.signingUp = false;
-                        this.$router.push('/login');
+                        this.$router.push('/dashboard');
                     }, 1000);
                 }).catch((error) => {
                     setTimeout(() => {
                         this.signingUp = false;
                         this.errorMessage = error.message;
                     }, 1000);
-                    Promise.reject();
                 });
             }
         }
