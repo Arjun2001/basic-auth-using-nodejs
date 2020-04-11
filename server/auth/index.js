@@ -16,7 +16,9 @@ const schema = joi.object().keys({
 function createTokenSendResponse(user, res, next) {
     const payload = {
         _id: user._id,
-        username: user.username
+        username: user.username,
+        role: user.role,
+        active: user.active
     };
     jwt.sign(payload, process.env.TOKEN_SECRET, {
         expiresIn: '1d'
@@ -49,7 +51,9 @@ router.post('/signup', (req, res, next) => {
                 bcrypt.hash(req.body.password.trim(), 12).then(hashedPassword => {
                     const newUser = {
                         username: req.body.username,
-                        password: hashedPassword
+                        password: hashedPassword,
+                        role: 'user',
+                        active: true
                     };
                     users.insert(newUser).then(insertedUser => {
                         createTokenSendResponse(insertedUser, res, next);
@@ -76,7 +80,7 @@ router.post('/login', (req,res,next) => {
         users.findOne({
             username: req.body.username,
         }).then((user) => {
-            if(user) {
+            if(user && user.active) {
                 bcrypt.compare(req.body.password, user.password).then((result) => {
                     if(result) {
                         createTokenSendResponse(user, res, next);

@@ -10,6 +10,7 @@
     :to="{name:'Signup'}">
     Sign up</router-link>
   </p>
+  <button class="btn btn-info login" @click="changetologin">Sign in </button>
 </div>
   </div>
 </template>
@@ -17,6 +18,21 @@
 <script>
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  methods: {
+    changetologin() {
+            this.$router.push('/login');
+        }
+  }
 }
 </script>
+
+<style scoped>
+  .login{
+    font-weight: 400;
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+    border-radius: 0px;
+  }
+</style>
