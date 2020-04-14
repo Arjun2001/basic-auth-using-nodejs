@@ -1,27 +1,28 @@
-const db = require('../db/connection');
-const users = db.get('users');
 const bcrypt = require('bcryptjs');
+const db = require('../db/connection');
+
+const users = db.get('users');
+
 require('dotenv').config();
 
 async function createAdminUser() {
     try {
         const user = await users.findOne({ role: 'admin' });
-        if(!user) {
+        if (!user) {
             await users.insert({
                 username: 'admin123',
                 password: await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD, 12),
                 active: true,
-                role: 'admin'
+                role: 'admin',
             });
             console.log('Admin User Created!');
-        }else {
+        } else {
             console.log('Admin user already exists!');
         }
-    }catch(error) {
+    } catch (error) {
         console.log(error);
-    }finally {
+    } finally {
         db.close();
     }
-
-};
+}
 createAdminUser();
