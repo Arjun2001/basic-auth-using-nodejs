@@ -39,7 +39,7 @@
 <script>
 import joi from "joi";
 
-const LOGIN_URL = 'http://localhost:5000/auth/login';
+const LOGIN_URL = 'auth/login';
 
 const schema = joi.object().keys({
     username: joi.string().regex(/(^[a-zA-Z0-9_]*$)/).min(2).max(30).required(),
@@ -71,25 +71,22 @@ export default {
                 },
                 body: JSON.stringify(body)
             }).then((res) => {
+                    this.LoggingIn = false;
                     if (res.ok) {
-                        this.LoggingIn = false;
                         return res.json();
                     }
                     res.json().then((error) => {
-                        this.LoggingIn = false;
                         this.errorMessage = error.message;
                         throw new Error(error.message);
                     });
                 }).then((result) => {
+                    localStorage.token = result.token;
                     setTimeout(() => {
-                        this.LoggingIn = false;
-                        this.$router.push('/dashboard');
                         console.log(result);
-                        localStorage.token = result.token;
-                    }, 1000);
+                        this.$router.push('/dashboard');
+                    }, 3000);
                 }).catch((error) => {
                     setTimeout(() => {
-                        this.LoggingIn = false;
                         this.errorMessage = error.message;
                     }, 1000);
                 });

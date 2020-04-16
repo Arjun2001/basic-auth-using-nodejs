@@ -49,7 +49,7 @@
 <script>
 import joi from "joi";
 
-const SIGNUP_URL = 'http://localhost:5000/auth/signup';
+const SIGNUP_URL = 'auth/signup';
 
 const schema = joi.object().keys({
     username: joi.string().regex(/(^[a-zA-Z0-9_]*$)/).min(2).max(30).required(),
@@ -122,7 +122,7 @@ export default {
                     setTimeout(() => {
                         this.signingUp = false;
                         this.$router.push('/dashboard');
-                    }, 1000);
+                    }, 3000);
                 }).catch((error) => {
                     setTimeout(() => {
                         this.signingUp = false;

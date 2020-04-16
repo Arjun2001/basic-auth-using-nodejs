@@ -38,7 +38,8 @@ import MDemoji from 'markdown-it-emoji'
 const md = new MarkdownIt();
 md.use(MDemoji);
 
-const API_URL = 'http://localhost:5000/';
+const API_URL = 'http://localhost:5000/';   //has to change in production
+
 export default {
     data() {
         return{
@@ -60,7 +61,7 @@ export default {
             this.$router.push('/login');
         },
         addNote() {
-            fetch(`${API_URL}api/v1/notes`, {
+            fetch(`api/v1/notes`, {
                 method: 'POST',
                 body: JSON.stringify(this.newNote),
                 headers: {
@@ -79,7 +80,7 @@ export default {
             })
         },
         getNotes() {
-            fetch(`${API_URL}api/v1/notes`, {
+            fetch(`api/v1/notes`, {
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 },
